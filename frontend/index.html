@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chess Demo</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="app">
+    <section class="hero">
+      <p class="eyebrow">GBandit Test Tenant</p>
+      <h1>Chess Demo</h1>
+      <p class="lede">This frontend is served from the shared Nginx deployment. The API calls go through the Rust gateway to the tenant backend.</p>
+      <div class="actions">
+        <button id="health-button">Check API health</button>
+        <button id="state-button">Load board state</button>
+      </div>
+      <pre id="output">Waiting for a request…</pre>
+    </section>
+  </main>
+  <script src="/app.js"></script>
+</body>
+</html>
+
