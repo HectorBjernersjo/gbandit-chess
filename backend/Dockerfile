@@ -1,29 +1,19 @@
-# syntax=docker/dockerfile:1.7
+FROM rust:1-bookworm
 
-FROM rust:1.93.1-bookworm
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+RUN cargo install sqlx-cli --no-default-features --features postgres
 
 WORKDIR /app
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-       pkg-config \
-       libssl-dev \
-       ca-certificates \
-    && rm -rf /var/lib/apt/lists/*
-
-# Optional but very useful for fast inner-loop rebuilds
-RUN cargo install cargo-watch
-
-# Prime dependency cache
 COPY Cargo.toml Cargo.lock ./
-RUN mkdir -p src && \
-    printf 'fn main() {}\n' > src/main.rs && \
-    cargo build --locked && \
-    rm -rf src
+COPY src ./src
+COPY .sqlx ./.sqlx
+COPY migrations ./migrations
 
-# App source comes later so dependency layers stay cached
-COPY . .
+RUN --mount=type=cache,target=/usr/local/cargo/registry \
+    --mount=type=cache,target=/app/target \
+    cargo build && cp target/debug/basegame-api /app/basegame-api
 
 EXPOSE 8080
 
-CMD ["cargo", "run", "--locked"]
+CMD ["sh", "-c", "sqlx migrate run --source ./migrations && exec ./basegame-api"]
