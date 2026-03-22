@@ -1,24 +1,29 @@
-FROM rust:1.93.1-bookworm AS builder
-WORKDIR /app
+# syntax=docker/dockerfile:1.7
 
-COPY Cargo.toml Cargo.lock ./
-COPY src ./src
+FROM rust:1.93.1-bookworm
 
-RUN cargo build --release --locked
-
-FROM debian:bookworm-slim
 WORKDIR /app
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends ca-certificates \
-    && rm -rf /var/lib/apt/lists/* \
-    && useradd --system --create-home --uid 10001 appuser
+    && apt-get install -y --no-install-recommends \
+       pkg-config \
+       libssl-dev \
+       ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
 
-COPY --from=builder /app/target/release/chess-backend /usr/local/bin/chess-backend
+# Optional but very useful for fast inner-loop rebuilds
+RUN cargo install cargo-watch
+
+# Prime dependency cache
+COPY Cargo.toml Cargo.lock ./
+RUN mkdir -p src && \
+    printf 'fn main() {}\n' > src/main.rs && \
+    cargo build --locked && \
+    rm -rf src
+
+# App source comes later so dependency layers stay cached
+COPY . .
 
 EXPOSE 8080
 
-USER appuser
-
-ENTRYPOINT ["/usr/local/bin/chess-backend"]
-
+CMD ["cargo", "run", "--locked"]
