@@ -1,7 +1,6 @@
-FROM rust:1-bookworm
+# syntax=docker/dockerfile:1.7
 
-RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
-RUN cargo install sqlx-cli --no-default-features --features postgres
+FROM rust:1-bookworm
 
 WORKDIR /app
 
@@ -10,8 +9,8 @@ COPY src ./src
 
 RUN --mount=type=cache,target=/usr/local/cargo/registry \
     --mount=type=cache,target=/app/target \
-    cargo build && cp target/debug/basegame-api /app/basegame-api
+    cargo build
 
 EXPOSE 8080
 
-CMD ["sh", "-c", "sqlx migrate run --source ./migrations && exec ./basegame-api"]
+CMD ["./target/debug/chess-backend"]
