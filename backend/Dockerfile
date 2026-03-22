@@ -13,4 +13,4 @@ RUN --mount=type=cache,target=/usr/local/cargo/registry \
 
 EXPOSE 8080
 
-CMD ["./target/debug/chess-backend"]
+CMD ["/app/target/debug/chess-backend"]
