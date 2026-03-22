@@ -9,8 +9,9 @@ COPY src ./src
 
 RUN --mount=type=cache,target=/usr/local/cargo/registry \
     --mount=type=cache,target=/app/target \
-    cargo build
+    cargo build \
+    && cp /app/target/debug/chess-backend /usr/local/bin/chess-backend
 
 EXPOSE 8080
 
-CMD ["/app/target/debug/chess-backend"]
+CMD ["/usr/local/bin/chess-backend"]
