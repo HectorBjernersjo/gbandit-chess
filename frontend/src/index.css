@@ -39,6 +39,32 @@ body {
   box-shadow: 0 24px 80px rgba(67, 39, 25, 0.12);
 }
 
+.nav {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 16px;
+}
+
+.nav a {
+  text-decoration: none;
+  color: var(--muted);
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  padding: 4px 0;
+  border-bottom: 2px solid transparent;
+}
+
+.nav a:hover {
+  color: var(--ink);
+}
+
+.nav a.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
 .eyebrow {
   margin: 0 0 12px;
   text-transform: uppercase;
@@ -67,7 +93,8 @@ h1 {
   margin: 28px 0 20px;
 }
 
-button {
+button,
+.btn {
   border: 0;
   border-radius: 999px;
   padding: 12px 18px;
@@ -76,13 +103,16 @@ button {
   color: white;
   background: linear-gradient(180deg, var(--accent) 0%, var(--accent-strong) 100%);
   cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
 }
 
-button:hover {
+button:hover,
+.btn:hover {
   filter: brightness(1.05);
 }
 
-pre {
+.output {
   margin: 0;
   min-height: 180px;
   padding: 18px;
