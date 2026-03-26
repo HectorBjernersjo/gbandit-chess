@@ -8,6 +8,7 @@ export default function Home() {
       <p className="lede">
         This frontend is served from the shared Nginx deployment. The API calls
         go through the Rust gateway to the tenant backend.
+        This is version 21.
       </p>
       <div className="actions">
         <Link to="/health" className="btn">Check API health</Link>
