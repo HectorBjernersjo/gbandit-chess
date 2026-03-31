@@ -48,7 +48,7 @@ async fn root() -> &'static str {
 async fn health() -> Json<HealthResponse> {
     Json(HealthResponse {
         ok: true,
-        service: "chess-backend-v22",
+        service: "chess-backend-v23",
     })
 }
 
