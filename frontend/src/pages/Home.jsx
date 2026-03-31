@@ -6,7 +6,7 @@ export default function Home() {
             <p className="eyebrow">GBandit Test Tenant</p>
             <h1>Chess Demo</h1>
             <p className="lede">
-                This frontend is served from the shared Nginx deploymenta. The API calls
+                This frontend is served from the shared Nginx deployment. The API calls
                 go through the Rust gateway to the tenant backend.
                 This is version 23.
             </p>
